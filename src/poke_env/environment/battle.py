@@ -373,35 +373,44 @@ class Battle:
             pokemon, move, target = split_message[2:5]
             self.get_pokemon(pokemon)._moved(move)
         elif split_message[1] == "player":
-            player, username, avatar, rating = split_message[2:6]
-            if username == self._player_username:
-                self._player_role = player
-            return self._players.append(
-                {
-                    "username": username,
-                    "player": player,
-                    "avatar": avatar,
-                    "rating": rating,
-                }
-            )
+            try:
+                player, username, avatar, rating = split_message[2:6]
+                if username == self._player_username:
+                    self._player_role = player
+                return self._players.append(
+                    {
+                        "username": username,
+                        "player": player,
+                        "avatar": avatar,
+                        "rating": rating,
+                    }
+                )
+            except ValueError:
+                # Spectator
+                pass
         elif split_message[1] == "poke":
             player, details = split_message[2:4]
             self._register_teampreview_pokemon(player, details)
         elif split_message[1] == "raw":
-            username, rating_info = split_message[2].split("'s rating: ")
-            rating = int(rating_info[:4])
-            if username == self.player_username:
-                self._rating = rating
-            elif username == self.opponent_username:
-                self._opponent_rating = rating
-            else:
-                self.logger.warning(
-                    "Rating information regarding an unrecognized username received. "
-                    "Received '%s', while only known players are '%s' and '%s'",
-                    username,
-                    self.player_username,
-                    self.opponent_username,
-                )
+            try:
+                username, rating_info = split_message[2].split("'s rating: ")
+                rating = int(rating_info[:4])
+                if username == self.player_username:
+                    self._rating = rating
+                elif username == self.opponent_username:
+                    self._opponent_rating = rating
+                else:
+                    self.logger.warning(
+                        "Rating information regarding an unrecognized username received. "
+                        "Received '%s', while only known players are '%s' and '%s'",
+                        username,
+                        self.player_username,
+                        self.opponent_username,
+                    )
+            except ValueError:
+                # Unable to split the message to determine rating
+                # (Probably because it wasn't a rating string)
+                pass
         elif split_message[1] == "replace":
             pokemon = split_message[2]
             details = split_message[3]
