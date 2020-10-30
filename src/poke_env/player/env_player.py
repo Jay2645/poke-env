@@ -313,16 +313,19 @@ class EnvPlayer(Player, Env, ABC):  # pyre-ignore
         self._start_new_battle = True
 
         async def launch_battles(player: EnvPlayer, opponent: Player):
-            battles_coroutine = asyncio.gather(
-                player.send_challenges(
-                    opponent=to_id_str(opponent.username),
-                    n_challenges=1,
-                    to_wait=opponent.logged_in,
-                ),
-                opponent.accept_challenges(
-                    opponent=to_id_str(player.username), n_challenges=1
-                ),
-            )
+            if opponent is not None:
+                battles_coroutine = asyncio.gather(
+                    player.send_challenges(
+                        opponent=to_id_str(opponent.username),
+                        n_challenges=1,
+                        to_wait=opponent.logged_in,
+                    ),
+                    opponent.accept_challenges(
+                        opponent=to_id_str(player.username), n_challenges=1
+                    ),
+                )
+            else:
+                battles_coroutine = asyncio.gather(player.ladder(n_games=1))
             await battles_coroutine
 
         def env_algorithm_wrapper(player, kwargs):
