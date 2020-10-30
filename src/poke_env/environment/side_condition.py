@@ -3,11 +3,10 @@
 condition.
 """
 # pyre-ignore-all-errors[45]
-from enum import Enum, unique, auto
+from enum import IntEnum, unique, auto
 
 
-@unique
-class SideCondition(Enum):
+class SideCondition(IntEnum):
     """Enumeration, represent a in-battle side condition."""
 
     AURORA_VEIL = auto()

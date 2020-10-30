@@ -3,11 +3,10 @@
 afflicted with.
 """
 # pyre-ignore-all-errors[45]
-from enum import Enum, unique, auto
+from enum import IntEnum, unique, auto
 
 
-@unique
-class Status(Enum):
+class Status(IntEnum):
     """Enumeration, represent a status a pokemon can be afflicted with."""
 
     BRN = auto()

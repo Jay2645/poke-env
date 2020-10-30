@@ -2,11 +2,10 @@
 """This module defines the Weather class, which represents a in-battle weather.
 """
 # pyre-ignore-all-errors[45]
-from enum import Enum, unique, auto
+from enum import IntEnum, unique, auto
 
 
-@unique
-class Weather(Enum):
+class Weather(IntEnum):
     """Enumeration, represent a non null weather in a battle."""
 
     DESOLATELAND = auto()

@@ -4,14 +4,13 @@ PokemonTypes are mainly associated with Pokemons and moves.
 """
 # pyre-ignore-all-errors[45]
 from enum import auto
-from enum import Enum
+from enum import IntEnum
 from enum import unique
 from typing import Optional
 from ..data import TYPE_CHART
 
 
-@unique
-class PokemonType(Enum):
+class PokemonType(IntEnum):
     """A Pokemon type
 
     This enumeration represents pokemon types. Each type is an instance of this class,

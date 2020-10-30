@@ -2,11 +2,10 @@
 """This module defines the MoveCategory class, which represents a move category.
 """
 # pyre-ignore-all-errors[45]
-from enum import Enum, unique, auto
+from enum import IntEnum, unique, auto
 
 
-@unique
-class MoveCategory(Enum):
+class MoveCategory(IntEnum):
     """Enumeration, represent a move category."""
 
     PHYSICAL = auto()

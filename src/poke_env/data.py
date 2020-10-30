@@ -53,6 +53,7 @@ _TYPE_CHART_PATH: str = os.path.join(
 "Path to the json file containing type informations."
 
 POKEDEX: Dict[str, Any] = {}
+ABILITYDEX: Dict[str, int] = {}
 
 with open(
     os.path.join(os.path.dirname(os.path.realpath(__file__)), "data", "pokedex.json")
@@ -72,6 +73,12 @@ for name, value in POKEDEX.items():
         value["species"] = value["baseSpecies"]
     else:
         value["baseSpecies"] = to_id_str(name)
+    
+    abilities = value["abilities"]
+    for ability_type in abilities:
+        ability_name = to_id_str(abilities[ability_type])
+        if ability_name not in ABILITYDEX:
+            ABILITYDEX[ability_name] = len(ABILITYDEX)
 
 MOVES: Dict[str, Any] = {}
 

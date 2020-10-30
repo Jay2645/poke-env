@@ -120,6 +120,9 @@ class Player(PlayerNetwork, ABC):
     def _battle_finished_callback(self, battle: Battle) -> None:
         pass
 
+    async def _battle_started_callback(self, battle: Battle) -> None:
+        pass
+
     async def _create_battle(self, split_message: List[str]) -> Battle:
         """Returns battle object corresponding to received message.
 
@@ -143,7 +146,10 @@ class Player(PlayerNetwork, ABC):
                 battle = Battle(
                     battle_tag=battle_tag, username=self.username, logger=self.logger
                 )
+                await self._battle_started_callback(battle)
+
                 await self._battle_count_queue.put(None)
+
                 if split_message[2] in self._battles:
                     self._battle_count_queue.get()
                     return self._battles[split_message[2]]

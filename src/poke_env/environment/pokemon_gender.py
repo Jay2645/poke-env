@@ -3,12 +3,11 @@
 Pokemon.
 """
 # pyre-ignore-all-errors[45]
-from enum import Enum, unique, auto
+from enum import IntEnum, unique, auto
 from poke_env.exceptions import ShowdownException
 
 
-@unique
-class PokemonGender(Enum):
+class PokemonGender(IntEnum):
     """Enumeration, represent a pokemon's gender."""
 
     FEMALE = auto()

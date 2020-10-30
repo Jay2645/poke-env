@@ -7,7 +7,6 @@ from poke_env.exceptions import UnexpectedEffectException
 
 from enum import Enum, unique, auto
 
-
 @unique
 class Effect(Enum):
     """Enumeration, represent an effect a Pokemon can be affected by."""

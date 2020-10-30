@@ -2,11 +2,10 @@
 """This module defines the Field class, which represents a battle field.
 """
 # pyre-ignore-all-errors[45]
-from enum import Enum, unique, auto
+from enum import IntEnum, unique, auto
 
 
-@unique
-class Field(Enum):
+class Field(IntEnum):
     """Enumeration, represent a non null field in a battle."""
 
     ELECTRIC_TERRAIN = auto()
