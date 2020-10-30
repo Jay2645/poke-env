@@ -190,10 +190,10 @@ class PlayerNetwork(ABC):
                     "challstr": split_message[2] + "%7C" + split_message[3],
                 },
             )
-            self.logger.info("Sending authentication request")
+            self.logger.debug("Sending authentication request")
             assertion = json.loads(log_in_request.text[1:])["assertion"]
         else:
-            self.logger.info("Bypassing authentication request")
+            self.logger.debug("Bypassing authentication request")
             assertion = ""
 
         await self._send_message(f"/trn {self._username},0,{assertion}")
@@ -223,7 +223,7 @@ class PlayerNetwork(ABC):
         else:
             to_send = "|".join([room, message])
         await self._websocket.send(to_send)
-        self.logger.info(">>> %s", to_send)
+        self.logger.debug(">>> %s", to_send)
 
     async def _set_team(self):
         if self._team is not None:
@@ -241,7 +241,7 @@ class PlayerNetwork(ABC):
 
     async def listen(self) -> None:
         """Listen to a showdown websocket and dispatch messages to be handled."""
-        self.logger.info("Starting listening to showdown websocket")
+        self.logger.debug("Starting listening to showdown websocket")
         coroutines = []
         try:
             async with websockets.connect(
@@ -249,7 +249,7 @@ class PlayerNetwork(ABC):
             ) as websocket:
                 self._websocket = websocket
                 async for message in websocket:
-                    self.logger.info("<<< %s", message)
+                    self.logger.debug("<<< %s", message)
                     coroutines.append(ensure_future(self._handle_message(message)))
         except websockets.exceptions.ConnectionClosedOK:
             self.logger.warning(
