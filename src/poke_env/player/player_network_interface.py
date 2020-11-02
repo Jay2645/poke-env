@@ -160,6 +160,8 @@ class PlayerNetwork(ABC):
                 raise ShowdownException("Error message received: %s", message)
             elif split_message[1] == "pm":
                 self.logger.info("Received pm: %s", split_message)
+            elif split_message[2] == "chat\n" or split_message[1] == "b" or split_message[1] == "c:" or split_message[1] == "j" or split_message[1] == "l":
+                pass
             else:
                 self.logger.critical("Unhandled message: %s", message)
                 raise NotImplementedError("Unhandled message: %s" % message)

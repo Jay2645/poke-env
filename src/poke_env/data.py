@@ -87,6 +87,13 @@ with open(
 ) as moves:
     MOVES = json.load(moves)
 
+ITEMS: Dict[str, Any] = {}
+
+with open(
+    os.path.join(os.path.dirname(os.path.realpath(__file__)), "data", "items.json")
+) as items:
+    ITEMS = json.load(items)
+
 TYPE_CHART: Dict[str, Dict[str, float]] = _compute_type_chart(_TYPE_CHART_PATH)
 
 NATURES: Dict[str, Dict[str, Union[int, float]]] = {}

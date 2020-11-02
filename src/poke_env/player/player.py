@@ -38,7 +38,7 @@ class Player(PlayerNetwork, ABC):
     Base class for players.
     """
 
-    MESSAGES_TO_IGNORE = [""]
+    MESSAGES_TO_IGNORE = ["", "N", "L", "J"]
 
     # When an error resulting from an invalid choice is made, the next order has this
     # chance of being showdown's default order to prevent infinite loops
@@ -117,7 +117,7 @@ class Player(PlayerNetwork, ABC):
         self.logger.debug("Player initialisation finished")
         self._json_decoder = JSONDecoder()
 
-    def _battle_finished_callback(self, battle: Battle) -> None:
+    async def _battle_finished_callback(self, battle: Battle) -> None:
         pass
 
     async def _battle_started_callback(self, battle: Battle) -> None:
@@ -218,7 +218,7 @@ class Player(PlayerNetwork, ABC):
                     battle._tied()
                 await self._battle_count_queue.get()
                 self._battle_count_queue.task_done()
-                self._battle_finished_callback(battle)
+                await self._battle_finished_callback(battle)
                 async with self._battle_end_condition:
                     self._battle_end_condition.notify_all()
             elif split_message[1] == "error":

@@ -83,7 +83,7 @@ class EnvPlayer(Player, Env, ABC):  # pyre-ignore
     def _action_to_move(self, action: int, battle: Battle) -> str:
         """Abstract method converting elements of the action space to move orders."""
 
-    def _battle_finished_callback(self, battle: Battle) -> None:
+    async def _battle_finished_callback(self, battle: Battle) -> None:
         self._observations[battle].put(self.embed_battle(battle))
 
     def _init_battle(self, battle: Battle) -> None:
