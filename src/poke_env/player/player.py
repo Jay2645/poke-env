@@ -123,7 +123,7 @@ class Player(PlayerNetwork, ABC):
     async def _battle_started_callback(self, battle: Battle) -> None:
         pass
 
-    async def _create_battle(self, split_message: List[str]) -> Battle:
+    async def _create_battle(self, battle_tag : str, split_message: List[str]) -> Battle:
         """Returns battle object corresponding to received message.
 
         :param split_message: The battle initialisation message.
@@ -134,7 +134,6 @@ class Player(PlayerNetwork, ABC):
         # We check that the battle has the correct format
         if split_message[1] == self._format and len(split_message) >= 2:
             # Battle initialisation
-            battle_tag = "-".join(split_message[0:3])
             if battle_tag.startswith(">"):
                 battle_tag = battle_tag[1:]
             if battle_tag.endswith("\n"):
@@ -185,7 +184,7 @@ class Player(PlayerNetwork, ABC):
         battle_info = split_first_message[0].split("-")
 
         if len(messages) > 1 and len(messages[1]) > 1 and messages[1][1] == "init":
-            battle = await self._create_battle(battle_info)
+            battle = await self._create_battle(split_first_message[0], battle_info)
             messages.pop(0)
         else:
             battle = await self._get_battle(battle_info[2])

@@ -129,6 +129,13 @@ class PlayerNetwork(ABC):
             # The type of message is determined by the first entry in the message
             # For battles, this is the zero-th entry
             # Otherwise it is the one-th entry
+            if split_message[1] == "raw":
+                try:
+                    if "typing too quickly" in split_message[2]:
+                        raise CancelledError(split_message[2])
+                except (KeyError, ValueError):
+                    pass
+            # Purposely not elif to allow other raw messages to fall through
             if split_message[1] == "challstr":
                 # Confirms connection to the server: we can login
                 await self._log_in(split_message)
@@ -159,6 +166,11 @@ class PlayerNetwork(ABC):
                 self.logger.critical("Error message received: %s", message)
                 raise ShowdownException("Error message received: %s", message)
             elif split_message[1] == "pm":
+                try:
+                    if "/error" in split_message[4]:
+                        raise CancelledError(split_message[4])
+                except (KeyError, ValueError):
+                    pass
                 self.logger.info("Received pm: %s", split_message)
             elif split_message[2] == "chat\n" or split_message[1] == "b" or split_message[1] == "c:" or split_message[1] == "j" or split_message[1] == "l":
                 pass
@@ -225,7 +237,7 @@ class PlayerNetwork(ABC):
         else:
             to_send = "|".join([room, message])
         await self._websocket.send(to_send)
-        self.logger.debug(">>> %s", to_send)
+        self.logger.info(">>> %s", to_send)
 
     async def _set_team(self):
         if self._team is not None:

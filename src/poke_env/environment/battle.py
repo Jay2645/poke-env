@@ -426,6 +426,15 @@ class Battle:
             player, number = split_message[2:4]
             number = int(number)
             self._team_size[player] = number
+        elif split_message[1] == "noinit":
+            try:
+                if split_message[2] == "rename":
+                    self._battle_tag = split_message[3]
+                    self.logger.info("Battle renamed to " + self.battle_tag)
+                else:
+                    raise NotImplementedError(split_message)
+            except (KeyError, ValueError):
+                pass
         else:
             raise NotImplementedError(split_message)
 
