@@ -2575,13 +2575,13 @@
   "pp": 5,
   "priority": 0,
   "flags": {"protect": 1, "mirror": 1},
-  "secondary": {
+  "self": {
    "chance": 50,
-   "self": {
-    "boosts": {
-     "def": 2
-    }
+   "boosts": {
+    "def": 2
    }
+  },
+  "secondary": {
   },
   "target": "allAdjacentFoes",
   "type": "Rock",
@@ -4205,6 +4205,9 @@
   "priority": 0,
   "flags": {"protect": 1, "mirror": 1, "mystery": 1},
   "onPrepareHit": "onPrepareHit",
+  "condition": {
+   "onUpdate": "onUpdate"
+  },
   "secondary": null,
   "target": "normal",
   "type": "Dark",

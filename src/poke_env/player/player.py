@@ -123,7 +123,7 @@ class Player(PlayerNetwork, ABC):
     async def _battle_started_callback(self, battle: Battle) -> None:
         pass
 
-    async def _create_battle(self, battle_tag : str, split_message: List[str]) -> Battle:
+    async def _create_battle(self, split_message: List[str]) -> Battle:
         """Returns battle object corresponding to received message.
 
         :param split_message: The battle initialisation message.
